@@ -47,7 +47,6 @@ public class Runner {
 
 		//Create a file with the program's expected output
 		//createOutputFile(falsePositivesPercent, rejectedPasswordsAmount, treeLayout, searchTime, treeLayoutAfterDeletions, System.getProperty("user.dir")+"/output.txt");
-	    
 	}
 	
 	private static String read_hashFunc(){
