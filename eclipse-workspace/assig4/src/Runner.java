@@ -1,14 +1,9 @@
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.io.BufferedReader;
-import java.io.FileReader;
 
 public class Runner {
-	
-	static String HASH_P = "C:\\Users\\maybl\\eclipse-workspace\\assig4\\src\\hash_functions.txt";
 
 	//Arguments you program should expect:
 	//1. m1 (the size of the Bloom-Filter's table).
@@ -18,67 +13,39 @@ public class Runner {
 	//should be located in the same location as your src folder.
 	
 	public static void main(String[] args) {
-		read_hashFunc();
 
 		//Create the Bloom Filter.
-		//BloomFilter bloomFilter = contructBloomFilter(args[0]);
+		BloomFilter bloomFilter = contructBloomFilter(args[0]);
 				
 		//Create the Hash Table.
-		//HashTable hashTable = contructHashTable(args[1]);
+		HashTable hashTable = contructHashTable(args[1]);
 
 		//Find the percentage of false-positives
-		//String falsePositivesPercent = bloomFilter.getFalsePositivePercentage(hashTable, System.getProperty("user.dir")+"/requested_passwords.txt");
+		String falsePositivesPercent = bloomFilter.getFalsePositivePercentage(hashTable, System.getProperty("user.dir")+"/requested_passwords.txt");
 
-		//Find th
+		//Find the number of rejected passwords
+		String rejectedPasswordsAmount = bloomFilter.getRejectedPasswordsAmount(System.getProperty("user.dir")+"/requested_passwords.txt");
+
 		//Create the B tree using the t value and the path to the bad_passwords file.
-		//BTree btree = cre number of rejected passwords
-		//String rejectedPasswordsAmount = bloomFilter.getRejectedPasswordsAmount(System.getProperty("user.dir")+"/requested_passwords.txt");
-		//eateTree(args[2]);
+		BTree btree = createTree(args[2]);
 
 
 		//Get the DFS representation of the btree
-		//String treeLayout = btree.toString();
+		String treeLayout = btree.toString();
 
 		//Get the time required to perform a search of all requested words when using the B tree and hash table.
-		//String searchTime = getSearchTime(hashTable, btree);
+		String searchTime = getSearchTime(hashTable, btree);
 
 		//Get the DFS representation of the btree, after performing deletions
-		//String treeLayoutAfterDeletions = deleteKeysFromTree(btree);
+		String treeLayoutAfterDeletions = deleteKeysFromTree(btree);
 
 		//Create a file with the program's expected output
-		//createOutputFile(falsePositivesPercent, rejectedPasswordsAmount, treeLayout, searchTime, treeLayoutAfterDeletions, System.getProperty("user.dir")+"/output.txt");
-	}
-	
-	private static String read_hashFunc(){
-		BufferedReader reader;
-		int seperation_ind;
-		String tmpA;
-		String tmpB;
-		
-		try {
-			reader = new BufferedReader(new FileReader(HASH_P));
-			String line = reader.readLine();
-			
-			// create hash
-			while (line != null) 
-			{
-				seperation_ind = line.indexOf("_");
-				tmpA = line.substring(0, seperation_ind);
-				tmpB = line.substring(seperation_ind+1);
-				System.out.println(line);
-				line = reader.readLine();
-				// create hash
-			}
-			reader.close();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}			
-		return ":)";
+		createOutputFile(falsePositivesPercent, rejectedPasswordsAmount, treeLayout, searchTime, treeLayoutAfterDeletions, System.getProperty("user.dir")+"/output.txt");
+	    
 	}
 	
 
-	/*private static BloomFilter contructBloomFilter(String m1) {
+	private static BloomFilter contructBloomFilter(String m1) {
 		BloomFilter bloomFilter = new BloomFilter(m1, System.getProperty("user.dir")+"/hash_functions.txt");
 		//update the Bloom Filter's table with the bad passwords
 		bloomFilter.updateTable(System.getProperty("user.dir")+"/bad_passwords.txt");
@@ -124,7 +91,7 @@ public class Runner {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 
 
 }
