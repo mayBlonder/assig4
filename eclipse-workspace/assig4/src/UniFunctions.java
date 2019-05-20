@@ -10,6 +10,8 @@ public class UniFunctions {
 	}
 	private static int toInt(char c)
 	{
+		if(c<'A'||(c>'Z'&&c<'a')||c>'z')
+			throw new RuntimeException("value isnt leagal");
 		String s="0123456789";
 		return s.indexOf(c);
 				

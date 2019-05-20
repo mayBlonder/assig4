@@ -82,6 +82,7 @@ public class BTreeNode {
     		for(int j=0;i<t;i++)
         	{
         		splitted.childs[j]=split.childs[j+t];
+        		splitted.size++;
         		
         	}
     	}
@@ -96,5 +97,51 @@ public class BTreeNode {
     	split.size=t-1;
     	
     }
-    
+    public void remove(String key)
+    {
+    	
+    }
+    public void leftShift(int i)// left shifting
+    {
+    	for(int j=childs[i].size-1;j>0;i--)
+    	{
+    		childs[i].keys[j+1]=childs[i].keys[j];
+    		childs[i].childs[j+1]=childs[i].childs[j];
+    	}
+    	childs[i].keys[0]=keys[i-1];
+    	childs[i].childs[0]=childs[i-1].childs[childs[i-1].size-1];
+    	childs[i].size++;
+    	childs[i].size++;
+    	keys[i-1]=childs[i-1].keys[childs[i-1].size-1];
+    	childs[i-1].size--;
+    }
+    public void rightShift(int i)//right shifting
+    {
+    	childs[i].keys[childs[i].size]=keys[i];
+    	childs[i].size++;
+    	keys[i]=childs[i+1].keys[0];
+    	childs[i+1].size--;
+    	for(int j=0;j<childs[i+1].size;j++)
+    	{
+    		childs[i+1].keys[j]=childs[i+1].keys[j+1];
+    	}
+    }
+    public void mergeLeft(int i) //merging with left sibling
+    {
+    	for(int j=0;j<childs[i].size;j++)
+    		childs[i].keys[j+childs[i-1].size+1]=childs[i].keys[j];
+    	childs[i].keys[childs[i-1].size]=keys[i-1];
+    	childs[i].size++;
+    	size--;
+    	for(int j=0;j<childs[i-1].size;j++)
+    	{
+    		childs[i].keys[j]=childs[i-1].keys[j];
+    		childs[i].size++;
+    	}
+    	childs[i-1]=childs[i];
+    }
+    public void mergeRight()  //merging with right sibling
+    {
+    	
+    }
 }
