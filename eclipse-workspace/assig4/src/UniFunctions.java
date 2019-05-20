@@ -16,9 +16,21 @@ public class UniFunctions {
 	}
 	public static int tonumber256(String s)
 	{
-		int sum=0;
+		long sum=0;
 		for(int i=s.length()-1;i>=0;i--)
 			sum=(sum+(256^i)*(int)(s.charAt(i)))%p;
-		return sum;
+		return (int) sum;
+	}
+	public static String deCap(String s)
+	{
+		String decap=new String();
+		for(int i=0;i<s.length();i++)
+		{
+			if(s.charAt(i)>='A'&&s.charAt(i)<='Z')
+				decap=decap+(s.charAt(i)+25);
+			else
+				decap=decap+s.charAt(i);
+		}
+		return decap;
 	}
 }
