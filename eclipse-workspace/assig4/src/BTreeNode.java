@@ -24,7 +24,7 @@ public class BTreeNode {
     }
     public void insert(String key)
     {
-    	int i=size;
+    	int i=size-1;
     	if(leaf)
     	{
     		while(i>=0&&(UniFunctions.deCap(keys[i])).compareTo(UniFunctions.deCap(key))>0)
@@ -72,14 +72,14 @@ public class BTreeNode {
     	BTreeNode split=this.childs[i];
     	BTreeNode splitted=new BTreeNode(t);
     	splitted.leaf=split.leaf;
-    	for(int j=0;i<t-1;i++)
+    	for(int j=0;j<t-1;j++)
     	{
     		splitted.keys[j]=split.keys[j+t];
     		
     	}
     	if(!split.leaf)
     	{
-    		for(int j=0;i<t;i++)
+    		for(int j=0;j<t;j++)
         	{
         		splitted.childs[j]=split.childs[j+t];
         		splitted.size++;
@@ -92,7 +92,7 @@ public class BTreeNode {
     		keys[j+1]=keys[j];
     	}
     	childs[i+1]=splitted;
-    	keys[i+1]=split.keys[t-1];
+    	keys[i]=split.keys[t-1];
     	size++;
     	split.size=t-1;
     	

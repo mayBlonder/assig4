@@ -38,7 +38,7 @@ public class BTree {
 		// inserting values from text file by line
 		
 	}
-	public void remove(String key)
+	public void remove(String key);
 	{
 		if(key==null||!search(key))
 			throw new RuntimeException("ileagal input");
