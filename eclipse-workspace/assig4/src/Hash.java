@@ -6,7 +6,7 @@ public class Hash{
 	public Hash(int a, int b){
 		this.a = a;
 		this.b = b;
-		this.k = k;
+		//this.k = k;
 	}
 	
 	public int getA(){
@@ -15,6 +15,10 @@ public class Hash{
 	
 	public int getB(){
 		return b;
+	}
+	
+	public String toString(){
+		return "a: " + a + " b: " + b;
 	}
 }
 

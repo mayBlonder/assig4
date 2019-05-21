@@ -1,4 +1,3 @@
-
 public class UniFunctions {
 	public static int p=15486907;
 	public static int toInt(String s)
