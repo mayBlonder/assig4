@@ -1,43 +1,43 @@
-import java.io.IOException;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 
-public class Runner1 {
-	
+//import java.util.Arrays;
+
+public class BuildHash{
 	static String HASH_P = "C:\\Users\\maybl\\eclipse-workspace\\assig4\\src\\hash_functions.txt";
 	
 	public static void main(String[] args) {
-		read_hashFunc();
+		//read_hashFunc();
+	}
 	
-	private static String read_hashFunc(){
+	public static Hash[] read_hashFunc(){
 		BufferedReader reader;
+		Hash[] hashes = new Hash[4];
 		int seperation_ind;
-		String tmpA;
-		String tmpB;
+		int tmpA;
+		int tmpB;
+		int i = 0;
 		
 		try {
 			reader = new BufferedReader(new FileReader(HASH_P));
 			String line = reader.readLine();
-			
-			// create hash
-			while (line != null) 
+			while (line != null)
 			{
 				seperation_ind = line.indexOf("_");
-				tmpA = line.substring(0, seperation_ind);
-				tmpB = line.substring(seperation_ind+1);
-				System.out.println(line);
+				tmpA = Integer.parseInt(line.substring(0, seperation_ind));
+				tmpB =Integer.parseInt(line.substring(seperation_ind+1));
+				hashes[i] = new Hash(tmpA, tmpB);
+				//System.out.println(hashes[i]);
 				line = reader.readLine();
-				// create hash
+				i++;
 			}
 			reader.close();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-		}			
-		return ":)";
+		}
+		return hashes;
 	}
 }
+
