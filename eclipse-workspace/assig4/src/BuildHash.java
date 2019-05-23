@@ -1,5 +1,5 @@
 public class BuildHash{
-	static String HASH_P = "C:\\Users\\maybl\\eclipse-workspace\\assig4\\src\\hash_functions.txt";
+	//static String HASH_P = "C:\\Users\\maybl\\eclipse-workspace\\assig4\\src\\hash_functions.txt";
 	static Hash[] hashes = new Hash[4];
 	
 	public static void main(String[] args) {
@@ -13,8 +13,8 @@ public class BuildHash{
 		hashes[i] = new Hash(tmpA, tmpB);
 	}
 	
-	public static Hash[] build_hashFunc(){
-		String[] lines = files.readFile(HASH_P, 4);
+	public static Hash[] build_hashFunc(String HASH_P){
+		String[] lines = File_handler.readFile(HASH_P, File_handler.file_lineNum(HASH_P));
 		for(int i=0;i<lines.length;i++) {
 			updateHash_array(lines[i], i);
 		}
