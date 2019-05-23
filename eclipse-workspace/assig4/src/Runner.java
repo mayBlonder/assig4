@@ -52,7 +52,7 @@ public class Runner {
 		return bloomFilter;
 	}
 
-	/*private static HashTable contructHashTable(String m2) {
+/*	private static HashTable contructHashTable(String m2) {
 		HashTable hashTable = new HashTable(m2);
 		//update the Hash Table with the bad passwords
 		hashTable.updateTable(System.getProperty("user.dir")+"/bad_passwords.txt");
