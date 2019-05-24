@@ -41,8 +41,12 @@ public class BTree {
 	public void remove(String key)
 	{
 		if(key==null||!search(key))
-			throw new RuntimeException("ileagal input");
-		root.remove(key);
+		{}
+		else
+		{
+			
+	
+		}
 	}
 	public void deleteKeysFromTree(String string) {
 		// ideleting values from text file by line
