@@ -21,10 +21,10 @@ public class BTree {
 			nroot.setchild(0,root);
 			root=nroot;
 			root.splitChild(0);
-			root.insert(key);
+			root.insert(UniFunctions.deCap(key));
 		}
 		else
-			root.insert(key);
+			root.insert(UniFunctions.deCap(key));
 			
 	}
 	
@@ -32,7 +32,7 @@ public class BTree {
 	{
 		if(s==null)
 			throw new RuntimeException("ileagal input");
-		return root.search(s);
+		return root.search(UniFunctions.deCap(s));
 	}
 	public void createFullTree(String string) {
 		// inserting values from text file by line
@@ -44,7 +44,74 @@ public class BTree {
 		{}
 		else
 		{
-			
+			key=UniFunctions.deCap(key);
+			int i=0;
+			while(root.getkey(i).compareTo(key)<0)
+				i++;
+			if(root.getkey(i).equals(key))
+			{
+				
+				if(root.getleaf())
+				{
+					root.removeleaf();
+				}
+				else
+				{
+					if(root.getchild(i).getsize()>t-1)
+					{
+						BTreeNode node=	root.predessesor(i);
+						root.getchild(i).remove(node.getkey(node.getsize()-1));
+					}
+					else
+					{
+						if(root.getchild(i+1).getsize()>t-1)
+						{
+							BTreeNode node=	root.sucssesor(i);
+							root.getchild(i).remove(node.getkey(0));
+						}
+						else
+						{
+							root.mergeRight(i);
+							root.getchild(i).remove(key);
+						}
+						
+					}
+				}
+			}
+			else
+			{
+				if(root.getchild(i).getsize()>t-1)
+				{
+					root.getchild(i).remove(key);
+				}
+				else
+				{
+					if(i>0)
+					{
+						if(root.getchild(i-1).getsize()>t-1)
+							root.leftShift(i);
+						else
+						{
+							if(i<root.getsize())
+							{
+								root.rightShift(i);
+							}
+							else
+								root.mergeLeft(i);
+								
+						}
+					}
+					else
+					{
+						if(root.getchild(i+1).getsize()>t-1)
+							root.rightShift(i);
+						else
+							root.mergeRight(i);
+					}
+									
+				}
+				root.getchild(i).remove(key);
+			}
 	
 		}
 	}
