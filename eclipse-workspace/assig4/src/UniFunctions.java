@@ -32,7 +32,7 @@ public class UniFunctions {
 		for(int i=0;i<s.length();i++)
 		{
 			if(s.charAt(i)>='A'&&s.charAt(i)<='Z')
-				decap=decap+(s.charAt(i)+25);
+				decap=decap+(char)(s.charAt(i)+32);
 			else
 				decap=decap+s.charAt(i);
 		}

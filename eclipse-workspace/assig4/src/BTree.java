@@ -122,7 +122,7 @@ public class BTree {
 	public String toString()
 	{
 		String s= root.toString();
-		return s;
+		return s.substring(0,s.length()-1);
 	}
 	
 	
