@@ -84,18 +84,24 @@ public class BTreeNode {
     	for(int i=size;i>=k;i--)
     		children[i+1]=children[i];
     }
-    private void moveleft()
-    {
-    	for(int i=0;i<size;i++)
-    		keys[i]=keys[i+1];
-    	for(int i=0;i<=size;i++)
-    		children[i+1]=children[i];
-    }
-    private void moveleft(int k)
+    private void movekeysleft(int k)
     {
     	for(int i=k;i<size;i++)
     		keys[i]=keys[i+1];
-    	for(int i=k;i<=size;i++)
+    	
+    }
+    private void movechildrenleft(int k)
+    {
+    	
+    	for(int i=k;i<size;i++)
+    		children[i]=children[i+1];
+    }
+    private void moveleft(int k)
+    {
+    	
+    	for(int i=k;i<size-1;i++)
+    		keys[i]=keys[i+1];
+    	for(int i=k;i<size;i++)
     		children[i]=children[i+1];
     }
     
@@ -188,8 +194,9 @@ public class BTreeNode {
 			else
 				getchild(i).remove(key);
 			}
+    	
     	}
-    }
+    
     public void leftShift(int i)// left shifting
     {
     	children[i].moveright();
@@ -249,22 +256,23 @@ public class BTreeNode {
     		children[i].children[children[i].size+j]=children[i+1].children[j];
     	}
     	children[i].size=children[i].size+children[i+1].size;
-    	moveleft(i+1);
+    	movekeysleft(i);
+    	movechildrenleft(i+1);
     	decrisesize();
     }
-    public BTreeNode  predessesor(int i)
+    public String  predessesor(int i)
     {
     	BTreeNode node=children[i];
     	while(!node.leaf)
    			node=node.children[node.size];
-   		return node;
+   		return node.getkey(node.getsize()-1);
    	}
-   	public BTreeNode  sucssesor(int i)
+   	public String  sucssesor(int i)
    	{
    		BTreeNode node=children[i+1];
    		while(!node.leaf)
    			node=node.children[0];
-   		return node;
+   		return node.getkey(0);
    	}
    	public String toString()
    	{
@@ -361,16 +369,22 @@ public class BTreeNode {
     private void removeinnernode(String key,int i)
     {
     	int dir=legitchild(i);
-    	if(dir==1)
+    	if(dir==0)
     	{
+    		keys[i]=sucssesor(i);
+    		getchild(i+1).remove(sucssesor(i));
     	}
     	else
     	{
     		if(dir==1)
     		{
+    			keys[i]=predessesor(i);
+    			getchild(i-1).remove(predessesor(i));
     		}
     		else
     		{
+    			mergeRight(i);
+    			getchild(i).remove(key);
     			
     		}
     	}
