@@ -62,7 +62,7 @@ public class BTreeNode {
     public void setchild(int i,BTreeNode node)
     {
     	if(i<0||i>size)
-    		return null;
+    		return;
     	children[i]=node;
     }
     private void movekeysright()
@@ -124,8 +124,8 @@ public class BTreeNode {
     			splitChild(i);
     			if(keys[i].compareTo(key)<0)
     				i++;
-    			children[i].insert(key);
     		}
+    		children[i].insert(key);
     	}
     }
     
@@ -161,15 +161,16 @@ public class BTreeNode {
         		splitted.children[j]=split.getchild(j+t);
         	}
     	}
-    	moveright(i);
+    	moveright(i+1);
     	keys[i]=split.getkey(t-1);
+    	children[i+1]=splitted;
     	incrisesize();
     	split.setsize(t-1);
     	
     }
     public void remove(String key)
     {
-    	if()
+    	
     }
     public void leftShift(int i)// left shifting
     {
@@ -254,6 +255,30 @@ public class BTreeNode {
    		while(!node.leaf)
    			node=node.children[0];
    		return node;
+   	}
+   	public String toString()
+   	{
+   		return toString(0);
+   	}
+   	private String toString(int i)
+   	{
+   		String s=new String();
+   		if(leaf)
+   		{
+   			for(int j=0;j<size;j++)
+   				s=s+keys[j]+"_"+i+",";
+   			return s;
+   		}
+   		else
+   		{
+   			for(int j=0;j<size;j++)
+   			{
+   				s=s+children[j].toString(i+1);
+   				s=s+keys[j]+"_"+i+",";
+   			}
+   			s=s+children[size].toString(i+1);
+   		}
+   		return s;
    	}
     	
     	

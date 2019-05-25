@@ -7,7 +7,7 @@ public class BTree {
 	{
 		if(t==null)
 			throw new RuntimeException("ileagal input");
-		this.t=UniFunctions.toInt(t);
+		this.t=Integer.parseInt(t);
 		root=new BTreeNode(this.t);
 	}
 	public void insert(String key)
@@ -118,6 +118,11 @@ public class BTree {
 	public void deleteKeysFromTree(String string) {
 		// ideleting values from text file by line
 		
+	}
+	public String toString()
+	{
+		String s= root.toString();
+		return s;
 	}
 	
 	
