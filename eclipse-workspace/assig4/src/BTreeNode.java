@@ -136,11 +136,11 @@ public class BTreeNode {
     	{
     		i++;
     	}
-    	if(keys[i].equals(s))
+    	if(i<size&&keys[i].equals(s))
     		return true;
     	if(leaf)
     		return false;
-    	return children[i-1].search(s);
+    	return children[i].search(s);
     }
     
     public void  splitChild(int i)

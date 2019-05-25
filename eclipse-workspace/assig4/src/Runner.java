@@ -26,11 +26,11 @@ public class Runner {
 		String rejectedPasswordsAmount = bloomFilter.getRejectedPasswordsAmount(System.getProperty("user.dir")+"/requested_passwords.txt");
 
 		//Create the B tree using the t value and the path to the bad_passwords file.
-		//BTree btree = createTree(args[2]);
+		BTree btree = createTree(args[2]);
 
 
 		//Get the DFS representation of the btree
-		//String treeLayout = btree.toString();
+		String treeLayout = btree.toString();
 
 		//Get the time required to perform a search of all requested words when using the B tree and hash table.
 		//String searchTime = getSearchTime(hashTable, btree);
@@ -61,19 +61,19 @@ public class Runner {
 
 	// Create the BTree using the t value, and the friends file.
 	// Insert the bad passwords into the tree.
-	/*private static BTree createTree(String tVal) {
+	private static BTree createTree(String tVal) {
 		BTree btree = new BTree(tVal);
 		btree.createFullTree(System.getProperty("user.dir")+"/bad_passwords.txt");
 		return btree;
-	}*/
+	}
 
-	/*private static String getSearchTime(HashTable hashTable, BTree btree) {
+	private static String getSearchTime(HashTable hashTable, BTree btree) {
 		//Get the time required to perform a search of all requested words when using the B tree.
 		String btreeSearchTime = btree.getSearchTime(System.getProperty("user.dir")+"/requested_passwords.txt");
 		//Get the time required to perform a search of all requested words when using the hash table.
 		String hashTableSearchTime = hashTable.getSearchTime(System.getProperty("user.dir")+"/requested_passwords.txt");
 		return btreeSearchTime+"_"+hashTableSearchTime;
-	}*/
+	}
 
 	/*private static String deleteKeysFromTree(BTree btree) {
 		btree.deleteKeysFromTree(System.getProperty("user.dir")+"/delete_keys.txt");

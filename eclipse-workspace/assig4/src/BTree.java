@@ -34,9 +34,11 @@ public class BTree {
 			throw new RuntimeException("ileagal input");
 		return root.search(UniFunctions.deCap(s));
 	}
-	public void createFullTree(String string) {
+	public void createFullTree(String bad_p) {
 		// inserting values from text file by line
-		
+		String [] badP = File_handler.readFile(bad_p, File_handler.file_lineNum(bad_p));
+		for(int i=0;i<badP.length;i++)
+			insert(badP[i]);
 	}
 	public void remove(String key)
 	{
@@ -123,6 +125,15 @@ public class BTree {
 	{
 		String s= root.toString();
 		return s.substring(0,s.length()-1);
+	}
+	public String getSearchTime(String reqpasswords) {
+		// TODO Auto-generated method stub
+		long start = System.nanoTime();    
+		String [] passwords = File_handler.readFile(reqpasswords, File_handler.file_lineNum(reqpasswords));
+		for(int i=0;i<passwords.length;i++)
+			search(passwords[i]);
+		Double elapsedTime = (System.nanoTime() - start)/1000000.0;
+		return elapsedTime.toString();
 	}
 	
 	
