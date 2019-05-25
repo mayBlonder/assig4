@@ -369,17 +369,17 @@ public class BTreeNode {
     private void removeinnernode(String key,int i)
     {
     	int dir=legitchild(i);
-    	if(dir==0)
+    	if(dir==1)
     	{
     		keys[i]=sucssesor(i);
     		getchild(i+1).remove(sucssesor(i));
     	}
     	else
     	{
-    		if(dir==1)
+    		if(dir==0)
     		{
     			keys[i]=predessesor(i);
-    			getchild(i-1).remove(predessesor(i));
+    			getchild(i).remove(predessesor(i));
     		}
     		else
     		{
