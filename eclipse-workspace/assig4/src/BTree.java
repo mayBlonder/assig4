@@ -14,11 +14,11 @@ public class BTree {
 	{
 		if(key==null)
 			throw new RuntimeException("ileagal input");
-		if(root.size==2*t-1)
+		if(root.getsize()==2*t-1)
 		{
 			BTreeNode nroot=new BTreeNode(t);
-			nroot.leaf=false;
-			nroot.childs[0]=root;
+			nroot.setleaf(false);
+			nroot.setchild(0,root);
 			root=nroot;
 			root.splitChild(0);
 			root.insert(key);
@@ -30,7 +30,7 @@ public class BTree {
 	
 	public boolean search(String s)
 	{
-		if(key==null)
+		if(s==null)
 			throw new RuntimeException("ileagal input");
 		return root.search(s);
 	}
@@ -38,11 +38,15 @@ public class BTree {
 		// inserting values from text file by line
 		
 	}
-	public void remove(String key);
+	public void remove(String key)
 	{
 		if(key==null||!search(key))
-			throw new RuntimeException("ileagal input");
-		root.remove(key);
+		{}
+		else
+		{
+			
+	
+		}
 	}
 	public void deleteKeysFromTree(String string) {
 		// ideleting values from text file by line

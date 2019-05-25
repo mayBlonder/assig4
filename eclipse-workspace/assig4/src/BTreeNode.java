@@ -1,27 +1,73 @@
 
 public class BTreeNode {
-	protected String [] keys;  
-	protected int t;       
-	protected BTreeNode[] childs;  
-	protected int size;     
-	protected boolean leaf;
+	private String [] keys;  
+	private int t;       
+	private BTreeNode[] children;  
+	private int size;     
+	private boolean leaf;
   
 
     public BTreeNode(int t)
     {
+    	if(t<=1)
+    		throw new RuntimeException ("invalid input");
     	this.t=t;
     	size=0;
     	leaf=true;
     	keys =new String[2*t-1];
-    	childs=new BTreeNode[2*t];
+    	children=new BTreeNode[2*t];
     }
-    public BTreeNode(String []keys,int t)
+    public int getsize()
     {
-    	this.t=t;
-    	this.keys =new String[2*t-1];
-    	size=keys.length;
-    	leaf=true;
+    	return size;
     }
+    public void setsize(int size)
+    {
+    	this.size=size;
+    }
+    public void decrisesize()
+    {
+    	this.size--;
+    }
+    public void incrisesize()
+    {
+    	this.size++;
+    }
+    public String getkey(int i)
+    {
+    	return keys[i];
+    }
+    public void setkey(int i,String s)
+    {
+    	keys[i]=s;
+    }
+    public boolean getleaf()
+    {
+    	return leaf;
+    }
+    public void setleaf(boolean leaf)
+    {
+    	this.leaf=leaf;
+    }
+    public BTreeNode getchild(int i)
+    {
+    	return children[i];
+    }
+    public void setchild(int i,BTreeNode node)
+    {
+    	children[i]=node;
+    }
+    private void movekeysright()
+    {
+    	for(int i=size-1;i>=0;i++)
+    		keys[i+1]=keys[i];
+    }
+    private void movechildrenright()
+    {
+    	for(int i=size;i>=0;i++)
+    		children[i+1]=children[i];
+    }
+    
     public void insert(String key)
     {
     	int i=size-1;
@@ -33,7 +79,7 @@ public class BTreeNode {
     			i--;
     		}
     		keys[i+1]=key;
-    		size++;
+    		incrisesize();
     	}
     	else
     	{
@@ -42,12 +88,12 @@ public class BTreeNode {
     			i--;
     		}
     		i=i+1;
-    		if(childs[i].size==2*t-1)
+    		if(children[i].size==2*t-1)
     		{
     			splitChild(i);
     			if(UniFunctions.deCap(keys[i]).compareTo(UniFunctions.deCap(key))<0)
     				i++;
-    			childs[i].insert(key);
+    			children[i].insert(key);
     		}
     	}
     }
@@ -64,37 +110,36 @@ public class BTreeNode {
     		return true;
     	if(leaf)
     		return false;
-    	return childs[i-1].search(s);
+    	return children[i-1].search(s);
     }
     
     public void  splitChild(int i)
     {
-    	BTreeNode split=this.childs[i];
+    	BTreeNode split=this.children[i];
     	BTreeNode splitted=new BTreeNode(t);
     	splitted.leaf=split.leaf;
     	for(int j=0;j<t-1;j++)
     	{
-    		splitted.keys[j]=split.keys[j+t];
+    		splitted.keys[j]=split.getkey(j+t);
+    		splitted.incrisesize();
     		
     	}
     	if(!split.leaf)
     	{
     		for(int j=0;j<t;j++)
         	{
-        		splitted.childs[j]=split.childs[j+t];
-        		splitted.size++;
-        		
+        		splitted.children[j]=split.getchild(j+t);
         	}
     	}
     	for(int j=size-1;j>i;j--)
     	{
-    		childs[j+1]=childs[j];
+    		children[j+1]=children[j];
     		keys[j+1]=keys[j];
     	}
-    	childs[i+1]=splitted;
-    	keys[i]=split.keys[t-1];
-    	size++;
-    	split.size=t-1;
+    	children[i+1]=splitted;
+    	keys[i]=split.getkey(t-1);
+    	incrisesize();
+    	split.setsize(t-1);
     	
     }
     public void remove(String key)
@@ -103,45 +148,80 @@ public class BTreeNode {
     }
     public void leftShift(int i)// left shifting
     {
-    	for(int j=childs[i].size-1;j>0;i--)
-    	{
-    		childs[i].keys[j+1]=childs[i].keys[j];
-    		childs[i].childs[j+1]=childs[i].childs[j];
-    	}
-    	childs[i].keys[0]=keys[i-1];
-    	childs[i].childs[0]=childs[i-1].childs[childs[i-1].size-1];
-    	childs[i].size++;
-    	childs[i].size++;
-    	keys[i-1]=childs[i-1].keys[childs[i-1].size-1];
-    	childs[i-1].size--;
+    	children[i].movekeysright();
+    	children[i].movechildrenright();
+     	children[i].keys[0]=keys[i-1];
+    	children[i].children[0]=children[i-1].children[children[i-1].size];
+    	children[i].size++;
+    	keys[i-1]=children[i-1].keys[children[i-1].size-1];
+    	children[i-1].size--;
     }
     public void rightShift(int i)//right shifting
     {
-    	childs[i].keys[childs[i].size]=keys[i];
-    	childs[i].size++;
-    	keys[i]=childs[i+1].keys[0];
-    	childs[i+1].size--;
-    	for(int j=0;j<childs[i+1].size;j++)
+    	children[i].keys[children[i].size]=keys[i];
+    	children[i].children[children[i].size+1]=children[i+1].children[0];
+    	children[i].size++;
+    	keys[i]=children[i+1].keys[0];
+    	children[i+1].size--;
+    	for(int j=0;j<children[i+1].size;j++)
     	{
-    		childs[i+1].keys[j]=childs[i+1].keys[j+1];
+    		children[i+1].keys[j]=children[i+1].keys[j+1];
     	}
     }
     public void mergeLeft(int i) //merging with left sibling
     {
-    	for(int j=0;j<childs[i].size;j++)
-    		childs[i].keys[j+childs[i-1].size+1]=childs[i].keys[j];
-    	childs[i].keys[childs[i-1].size]=keys[i-1];
-    	childs[i].size++;
-    	size--;
-    	for(int j=0;j<childs[i-1].size;j++)
+    	children[i].movekeysright();
+    	children[i].keys[children[i-1].size]=keys[i-1];
+    	children[i].incrisesize();
+    	for(int j=i-1;j<size;j++)
     	{
-    		childs[i].keys[j]=childs[i-1].keys[j];
-    		childs[i].size++;
+    		keys[j]=keys[j+1];
     	}
-    	childs[i-1]=childs[i];
+    	for(int j=i-1;j<=size;j++)
+    	{
+    		children[j]=children[j+1];
+    	}
+    	for(int j=children[i].size-1;j>=0;j--)
+    	{
+    		children[i].keys[children[i-1].size+j]=children[i].keys[j];
+    	}
+    	for(int j=children[i].size;j>=0;j--)
+    	{
+    		children[i].children[children[i-1].size+j]=children[i].children[j];
+    	}
+    	for(int j=0;j<children[i-1].size;j++)
+    	{
+    		children[i].keys[j]=children[i-1].keys[j];
+    		children[i].incrisesize();
+    	}
+    	for(int j=0;j<=children[i-1].size;j++)
+    	{
+    		children[i].children[j]=children[i-1].children[j];
+    	}
+    	decrisesize();
     }
-    public void mergeRight()  //merging with right sibling
+    public void mergeRight(int i)  //merging with right sibling
     {
-    	
+    	children[i].keys[size]=keys[i];
+    	children[i].incrisesize();
+    	for(int j=0;j<children[i+1].getsize();j++)
+    	{
+    		children[i].keys[children[i].size+j]=children[i+1].keys[j];
+    	}
+    	for(int j=0;j<=children[i+1].getsize();j++)
+    	{
+    		children[i].children[children[i].size+j]=children[i+1].children[j];
+    	}
+    	children[i].size=children[i].size+children[i+1].size;
+    	for(int j=0;j<children[i-1].size;j++)
+    	{
+    		children[i].keys[j]=children[i-1].keys[j];
+    		children[i].incrisesize();
+    	}
+    	for(int j=0;j<=children[i-1].size;j++)
+    	{
+    		children[i].children[j]=children[i-1].children[j];
+    	}
+    	decrisesize();
     }
 }
