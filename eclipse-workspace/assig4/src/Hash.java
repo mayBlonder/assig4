@@ -1,6 +1,6 @@
 public class Hash{
-	int a;
-	int b;
+	private int a;	//a value for hash
+	private int b;	//b value for hash
 	
 	public Hash(int a, int b){
 		this.a = a;

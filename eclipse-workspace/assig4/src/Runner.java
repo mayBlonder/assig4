@@ -18,13 +18,12 @@ public class Runner {
 		BloomFilter bloomFilter = contructBloomFilter(args[0]);		
 		//Create the Hash Table.
 		HashTable hashTable = contructHashTable(args[1]);
-		System.exit(0);
 
 		//Find the percentage of false-positives
-		//String falsePositivesPercent = bloomFilter.getFalsePositivePercentage(hashTable, System.getProperty("user.dir")+"/requested_passwords.txt");
-
+		String falsePositivesPercent = bloomFilter.getFalsePositivePercentage(hashTable, System.getProperty("user.dir")+"/requested_passwords.txt");
+		
 		//Find the number of rejected passwords
-		//String rejectedPasswordsAmount = bloomFilter.getRejectedPasswordsAmount(System.getProperty("user.dir")+"/requested_passwords.txt");
+		String rejectedPasswordsAmount = bloomFilter.getRejectedPasswordsAmount(System.getProperty("user.dir")+"/requested_passwords.txt");
 
 		//Create the B tree using the t value and the path to the bad_passwords file.
 		//BTree btree = createTree(args[2]);
@@ -52,12 +51,13 @@ public class Runner {
 		return bloomFilter;
 	}
 
-	/*private static HashTable contructHashTable(String m2) {
+	private static HashTable contructHashTable(String m2) {
 		HashTable hashTable = new HashTable(m2);
 		//update the Hash Table with the bad passwords
 		hashTable.updateTable(System.getProperty("user.dir")+"/bad_passwords.txt");
+		//System.out.println(hashTable);
 		return hashTable;
-	}*/
+	}
 
 	// Create the BTree using the t value, and the friends file.
 	// Insert the bad passwords into the tree.

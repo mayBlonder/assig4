@@ -1,12 +1,12 @@
-import java.util.Arrays;
+//import java.util.Arrays;
 
 public class BloomFilter{
-	//static String BAD_P = "C:\\Users\\maybl\\eclipse-workspace\\assig4\\src\\bad_passwords.txt";
-	String HASH_P;
+	String HASH_P;	//hash file path.
 	byte[] bloomArr;
 	Hash[] hashes;
 	int P = 15486907;
-	int m1;
+	int m1;	//array length.
+	public static String[] badPass;
 
 	public BloomFilter(String m1, String HASH_P){
 		this.m1 = Integer.parseInt(m1);
@@ -15,23 +15,65 @@ public class BloomFilter{
 		this.hashes = BuildHash.build_hashFunc(HASH_P);
 	}
 
-	public int hashValue(Hash hash, int k){
-		return (((hash.a*k) + hash.b % P) % m1);
+	private int hashValue(Hash hash, int k){
+		return (((hash.getA()*k) + hash.getB() % P) % m1);
 	}
 
 	public void updateTable(String BAD_P){
 		int tmpNum256;
 		int afterHash;
-		String[] badPass = File_handler.readFile(BAD_P, File_handler.file_lineNum(BAD_P));
+		int lines_n = File_handler.file_lineNum(BAD_P);
+		badPass = File_handler.readFile(BAD_P, lines_n);
 		for(int i=0;i<badPass.length;i++) {
 			tmpNum256 = UniFunctions.tonumber256(badPass[i]);
-			afterHash = hashValue(hashes[i%hashes.length], tmpNum256);
-			bloomArr[afterHash] = (byte)0x01;
+			for(int j=0;j<hashes.length;j++) {	//performing all hashes.
+				afterHash = hashValue(hashes[j], tmpNum256);
+				bloomArr[afterHash] = (byte)0x01;
+			}
 		}
-		System.out.println(Arrays.toString(bloomArr));
 	}
-	
-	public static void main(String[] args) {
-		//BloomFilter b = new BloomFilter(12);
+
+	private boolean isInbloomArr(int pass) {
+		boolean found = true;
+		for(int i=0;i<hashes.length;i++) {	//checking all hashes values.
+			if(bloomArr[hashValue(hashes[i], pass)] != (byte)0x01) {
+				found = false;
+			}
+		}
+		return found;
+	}
+
+	private int[] toIntArr(String rPass) {
+		int lines_n = File_handler.file_lineNum(rPass);
+		String[] reqPass = File_handler.readFile(rPass, lines_n);
+		return File_handler.stringArrToInt(reqPass);
+	}
+
+	public String getFalsePositivePercentage(HashTable hashT, String rPass) {
+		int[] reqPassInt = toIntArr(rPass);
+		double notInTale = 0;
+		double rej = 0;	//rejected password that are not in the table.
+		for(int i=0;i<reqPassInt.length;i++) {
+			HashListElement e = new HashListElement(reqPassInt[i]);
+			if(hashT.find(e) == -1) {	//is not in table.
+				notInTale++;
+				if(isInbloomArr(reqPassInt[i])) {
+					rej++;	
+				}
+			}
+		}
+		return Double.toString(rej/notInTale);	//percentage of false- positive.
+	}
+
+	public String getRejectedPasswordsAmount(String req_p) {
+		int[] reqPassInt = toIntArr(req_p);
+		int rej = 0;	//rejected by bloom filter.
+		for(int i=0;i<reqPassInt.length;i++) {
+			if(isInbloomArr(reqPassInt[i])) {
+				rej++;	
+			}
+		}
+		System.out.println(rej);
+		return Double.toString(rej);
 	}
 }

@@ -6,9 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class File_handler{
-	
-	//counts file's lines number.
+
 	public static int file_lineNum(String file_p){
+		//counts file's lines number.
 		Path path = Paths.get(file_p);
 		long lineCount = 0;
 		try {
@@ -19,7 +19,7 @@ public class File_handler{
 		}
 		return (int)lineCount;
 	}
-	
+
 	public static String[] readFile(String path, int fileLen) {
 		int i = 0;
 		String[] lines = new String[fileLen];
@@ -38,5 +38,16 @@ public class File_handler{
 			e.printStackTrace();
 		}
 		return lines;
+	}
+
+	public static int[] stringArrToInt(String[] arr){
+		//converts a String array into int array.
+		int[] newArr = new int[arr.length];
+		int tmpNum256;
+		for(int i=0;i<arr.length;i++) {
+			tmpNum256 = UniFunctions.tonumber256(arr[i]);
+			newArr[i] = tmpNum256;
+		}
+		return newArr;
 	}
 }

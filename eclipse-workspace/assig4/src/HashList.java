@@ -1,79 +1,53 @@
 public class HashList {
-	private static HashListElement head;
+	private HashListElement head;
 	private static int numElements;
 
-	public HashList(Object data){
+	public HashList(int data){
+		this.head = new HashListElement(data);
+	}
+
+	public HashListElement getHead(){
+		return this.head;
+	}
+
+	public void add(int data){
+		HashListElement prevHead = head;
 		head = new HashListElement(data);
-	}
-
-	public void addFirst(Object data){
-		HashListElement tmp = head;
-		head = new HashListElement(data);
-		head.setNext(tmp);
+		prevHead.setPrev(head);
+		head.setNext(prevHead);
 		numElements++;
 	}
 
-	public void addLast(Object data){
-		HashListElement tmp = head;
-		while(tmp.getNext() != null)
-		{
-			tmp = tmp.getNext();
+	public void delete(HashListElement toDelete) {
+		if (head != null && toDelete != null) {
+			if (head == toDelete) { 
+				head = toDelete.getNext();
+			} 
+			if (toDelete.getNext() != null) { 
+				toDelete.getNext().setPrev(toDelete.getPrev()); 
+			}
+			if (toDelete.getPrev() != null) { 
+				toDelete.getPrev().setNext(toDelete.getNext()); 
+			} 
+			numElements--;
 		}
-
-		tmp.setNext(new HashListElement(data));
-		numElements++;
 	}
 
-	public void addataIndex(int index, Object data){
-		HashListElement tmp = head;
-		HashListElement holder;
-		for(int i=0; i < index-1 && tmp.getNext() != null; i++)
-		{
-			tmp = tmp.getNext();
-		}
-		holder = tmp.getNext();
-		tmp.setNext(new HashListElement(data));
-		tmp.getNext().setNext(holder);
-		numElements++;
-	}
-
-	public void deleteAtIndex(int index){
-		HashListElement tmp = head;
-		for(int i=0; i< index - 1 && tmp.getNext() != null; i++)
-		{
-			tmp = tmp.getNext();
-		}
-		tmp.setNext(tmp.getNext().getNext());
-		numElements--;
-	}
-
-	public static int find(HashListElement n){
-		HashListElement t = head;
+	public int find(HashListElement toFind){
+		HashListElement element = head;
+		int found = -1;
 		int index = 0;
-		while(t != n)
+		while(element != null && found == -1)
 		{
-			index++;
-			t = t.getNext();
+			if(element.getData() == toFind.getData()) {
+				found = index;
+			}
+			else {
+				element = element.getNext();
+				index++;
+			}
 		}
-		return index;
-	}
-
-	public static HashListElement find(int index){
-		HashListElement tmp=head;
-		for(int i=0; i<index; i++)
-		{
-			tmp = tmp.getNext();
-		}
-		return tmp;
-	}
-
-	public static void printList(){
-		HashListElement tmp = head;
-		while(tmp != null)
-		{
-			System.out.println(tmp.getData());
-			tmp = tmp.getNext();
-		}
+		return found;
 	}
 
 	public static int getSize(){

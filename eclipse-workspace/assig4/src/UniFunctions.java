@@ -1,5 +1,6 @@
 public class UniFunctions {
 	public static int p=15486907;
+	
 	public static int toInt(String s)
 	{
 		int sum=0;
@@ -7,6 +8,7 @@ public class UniFunctions {
 			sum=sum+(10^i)*toInt(s.charAt(i));
 		return sum;
 	}
+	
 	private static int toInt(char c)
 	{
 		if(c<'A'||(c>'Z'&&c<'a')||c>'z')
@@ -15,6 +17,7 @@ public class UniFunctions {
 		return s.indexOf(c);
 				
 	}
+	
 	public static int tonumber256(String s)
 	{
 		long sum=0;
@@ -22,6 +25,7 @@ public class UniFunctions {
 			sum=(sum+(256^i)*(int)(s.charAt(i)))%p;
 		return (int) sum;
 	}
+	
 	public static String deCap(String s)
 	{
 		String decap=new String();
