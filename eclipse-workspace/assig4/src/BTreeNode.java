@@ -101,19 +101,13 @@ public class BTreeNode {
     
     public void insert(String key)
     {
-    	int i=size-1;
-    	if(leaf)
+       	if(leaf)
     	{
-    		while(i>=0&&(keys[i]).compareTo(key)>0)
-    		{
-    			keys[i+1]=keys[i];
-    			i--;
-    		}
-    		keys[i+1]=key;
-    		incrisesize();
+    		insertleaf(key);
     	}
     	else
     	{
+    		int i=size-1;
     		while(i>=0&&(keys[i]).compareTo(key)>0)
     		{
     			i--;
@@ -169,7 +163,32 @@ public class BTreeNode {
     }
     public void remove(String key)
     {
-    	
+    	int i=lesseq(key);
+    	if(getkey(i).equals(key))
+    	{
+    		if(leaf)
+    		{
+    			moveleft(i);
+    			decrisesize();
+    		}
+    		else
+    		{
+    			removeinnernode(key,i);
+    		}
+       	}
+    	else
+    	{
+    		if(getchild(i).getsize()==t-1)
+			{
+				if(sizecorrection(i)==0)
+					getchild(i).remove(key);
+				else
+					getchild(i-1).remove(key);
+			}
+			else
+				getchild(i).remove(key);
+			}
+    	}
     }
     public void leftShift(int i)// left shifting
     {
@@ -194,7 +213,7 @@ public class BTreeNode {
     }
     public void mergeLeft(int i) //merging with left sibling
     {
-    	children[i].movekeysright();
+    	children[i].moveright();
     	children[i].keys[0]=keys[i-1];
     	children[i].incrisesize();
     	for(int j=children[i].size-1;j>=0;j--)
@@ -230,15 +249,7 @@ public class BTreeNode {
     		children[i].children[children[i].size+j]=children[i+1].children[j];
     	}
     	children[i].size=children[i].size+children[i+1].size;
-    	for(int j=0;j<children[i-1].size;j++)
-    	{
-    		children[i].keys[j]=children[i-1].keys[j];
-    		children[i].incrisesize();
-    	}
-    	for(int j=0;j<=children[i-1].size;j++)
-    	{
-    		children[i].children[j]=children[i-1].children[j];
-    	}
+    	moveleft(i+1);
     	decrisesize();
     }
     public BTreeNode  predessesor(int i)
@@ -279,7 +290,90 @@ public class BTreeNode {
    		}
    		return s;
    	}
-    	
-    	
-    
+   	public int legitsiblingof (int i)
+   	{
+   		if(i>0&&children[i-1].getsize()>t-1)
+   			return 0;
+   		else
+   		{
+   			if(i<size&&children[i+1].getsize()>t-1)
+   				return 1;
+   		}
+   		return -1;
+   	}
+   	public int legitchild (int i)
+   	{
+   		if(i>0&&children[i].getsize()>t-1)
+   			return 0;
+   		else
+   		{
+   			if(i<size&&children[i+1].getsize()>t-1)
+   				return 1;
+   		}
+   		return -1;
+   	}
+    private void insertleaf(String key)
+    {
+    	int i=size-1;
+    	while(i>=0&&(keys[i]).compareTo(key)>0)
+		{
+			keys[i+1]=keys[i];
+			i--;
+		}
+		keys[i+1]=key;
+		incrisesize();
+    }
+    public int sizecorrection (int i)
+   	{
+   		int dir=legitsiblingof(i);
+   		if(dir==0)
+   		{
+   			leftShift(i);
+   			return 0;
+   		}
+   		else
+   		{
+   			if(dir==1)
+   			{
+   				rightShift(i);
+   				return 0;
+   			}
+   			else
+   			{
+   				if(i==0)
+   				{
+   					mergeRight(i);
+   					return 0;
+   				}
+   				else
+   					mergeLeft(i);
+   				return -1;
+   			}
+   		}
+   	}
+    public int lesseq (String key)
+    {
+    	int i=0;
+		while(i<size&&getkey(i).compareTo(key)<0)
+			i++;
+		return i;
+    }
+    private void removeinnernode(String key,int i)
+    {
+    	int dir=legitchild(i);
+    	if(dir==1)
+    	{
+    	}
+    	else
+    	{
+    		if(dir==1)
+    		{
+    		}
+    		else
+    		{
+    			
+    		}
+    	}
+    }
 }
+   

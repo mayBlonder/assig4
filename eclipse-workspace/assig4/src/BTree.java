@@ -47,75 +47,26 @@ public class BTree {
 		else
 		{
 			key=UniFunctions.deCap(key);
-			int i=0;
-			while(root.getkey(i).compareTo(key)<0)
-				i++;
+			int i=root.lesseq(key);
 			if(root.getkey(i).equals(key))
-			{
-				
-				if(root.getleaf())
 				{
-					root.removeleaf();
+					root.remove(key);
 				}
-				else
-				{
-					if(root.getchild(i).getsize()>t-1)
-					{
-						BTreeNode node=	root.predessesor(i);
-						root.getchild(i).remove(node.getkey(node.getsize()-1));
-					}
-					else
-					{
-						if(root.getchild(i+1).getsize()>t-1)
-						{
-							BTreeNode node=	root.sucssesor(i);
-							root.getchild(i).remove(node.getkey(0));
-						}
-						else
-						{
-							root.mergeRight(i);
-							root.getchild(i).remove(key);
-						}
-						
-					}
-				}
-			}
 			else
 			{
-				if(root.getchild(i).getsize()>t-1)
+				if(root.getchild(i).getsize()==t-1)
 				{
-					root.getchild(i).remove(key);
+					if(root.sizecorrection(i)==0)
+						root.getchild(i).remove(key);
+					else
+						root.getchild(i-1).remove(key);
 				}
 				else
-				{
-					if(i>0)
-					{
-						if(root.getchild(i-1).getsize()>t-1)
-							root.leftShift(i);
-						else
-						{
-							if(i<root.getsize())
-							{
-								root.rightShift(i);
-							}
-							else
-								root.mergeLeft(i);
-								
-						}
-					}
-					else
-					{
-						if(root.getchild(i+1).getsize()>t-1)
-							root.rightShift(i);
-						else
-							root.mergeRight(i);
-					}
-									
+					root.getchild(i).remove(key);
 				}
-				root.getchild(i).remove(key);
 			}
-	
-		}
+		if(root.getsize()==1)
+			root=root.getchild(0);
 	}
 	public void deleteKeysFromTree(String string) {
 		// ideleting values from text file by line
