@@ -22,7 +22,7 @@ public class UniFunctions {
 	{
 		long sum=0;
 		for(int i=s.length()-1;i>=0;i--)
-			sum=(sum+(256^i)*(int)(s.charAt(i)))%p;
+			sum=(sum+(256^(s.length()-i-1))*(int)(s.charAt(i)))%p;
 		return (int) sum;
 	}
 	
