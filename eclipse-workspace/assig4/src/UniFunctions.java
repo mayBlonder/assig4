@@ -25,7 +25,7 @@ public class UniFunctions {
 		for(int i=s.length()-1;i>=0;i--)
 		{
 			sum=(sum+(base*(int)(s.charAt(i))))%p;
-			base=base*256;
+			base=base*256%p;
 		}
 		return (int) sum;
 	}
