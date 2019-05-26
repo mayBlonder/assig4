@@ -21,8 +21,12 @@ public class UniFunctions {
 	public static int tonumber256(String s)
 	{
 		long sum=0;
+		long base=1;
 		for(int i=s.length()-1;i>=0;i--)
-			sum=(sum+(256^(s.length()-i-1))*(int)(s.charAt(i)))%p;
+		{
+			sum=(sum+(base*(int)(s.charAt(i))))%p;
+			base=base*256;
+		}
 		return (int) sum;
 	}
 	
