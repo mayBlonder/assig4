@@ -68,8 +68,10 @@ public class BTree {
 		if(root.getsize()==0)
 			root=root.getchild(0);
 	}
-	public void deleteKeysFromTree(String string) {
-		// ideleting values from text file by line
+	public void deleteKeysFromTree(String delet) {
+		String [] delets = File_handler.readFile(delet, File_handler.file_lineNum(delet));
+		for(int i=0;i<delets.length;i++)
+			insert(delets[i]);
 		
 	}
 	public String toString()
