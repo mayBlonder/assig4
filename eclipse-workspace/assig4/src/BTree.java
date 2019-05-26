@@ -71,7 +71,7 @@ public class BTree {
 	public void deleteKeysFromTree(String delet) {
 		String [] delets = File_handler.readFile(delet, File_handler.file_lineNum(delet));
 		for(int i=0;i<delets.length;i++)
-			insert(delets[i]);
+			remove(delets[i]);
 		
 	}
 	public String toString()
