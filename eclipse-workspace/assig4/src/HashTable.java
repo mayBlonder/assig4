@@ -3,7 +3,13 @@ public class HashTable {
 	private HashList[] table;
 	private int total_elements;
 	private int n; //initial size of the table
-
+	
+	
+	public static void main(String[] args) {
+		HashTable hashTable = new HashTable("4");
+		String t = hashTable.getSearchTime(System.getProperty("user.dir")+"/requested_passwords.txt");
+		System.out.println(t);
+	}
 	public HashTable(String n) {
 		this.n = Integer.parseInt(n);
 		this.table = new HashList[this.n];
@@ -63,6 +69,18 @@ public class HashTable {
 	private int hashFunction(int num) {
 		//temp hash function, just for testing.
 		return num % n;
+	}
+	
+	public String getSearchTime(String req_p) {
+		long startTime = System.nanoTime();
+		int lines_n = File_handler.file_lineNum(req_p);
+		int[] reqPass = File_handler.stringArrToInt(File_handler.readFile(req_p, lines_n));
+		for(int i=0;i<reqPass.length;i++) {
+			HashListElement e = new HashListElement(reqPass[i]);
+			this.find(e);
+		}
+		long endTime = System.nanoTime();
+		return Double.toString((double)(endTime - startTime)/1000000000);
 	}
 
 	public String toString() {

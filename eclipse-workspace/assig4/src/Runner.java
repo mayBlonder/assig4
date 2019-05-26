@@ -33,13 +33,13 @@ public class Runner {
 		String treeLayout = btree.toString();
 
 		//Get the time required to perform a search of all requested words when using the B tree and hash table.
-		//String searchTime = getSearchTime(hashTable, btree);
+		String searchTime = getSearchTime(hashTable, btree);
 
 		//Get the DFS representation of the btree, after performing deletions
-		//String treeLayoutAfterDeletions = deleteKeysFromTree(btree);
+		String treeLayoutAfterDeletions = deleteKeysFromTree(btree);
 
 		//Create a file with the program's expected output
-		//createOutputFile(falsePositivesPercent, rejectedPasswordsAmount, treeLayout, searchTime, treeLayoutAfterDeletions, System.getProperty("user.dir")+"/output.txt");
+		createOutputFile(falsePositivesPercent, rejectedPasswordsAmount, treeLayout, searchTime, treeLayoutAfterDeletions, System.getProperty("user.dir")+"/output.txt");
 	    
 	}
 	
@@ -75,13 +75,13 @@ public class Runner {
 		return btreeSearchTime+"_"+hashTableSearchTime;
 	}
 
-	/*private static String deleteKeysFromTree(BTree btree) {
+	private static String deleteKeysFromTree(BTree btree) {
 		btree.deleteKeysFromTree(System.getProperty("user.dir")+"/delete_keys.txt");
 		return btree.toString();
-	}*/
+	}
 
 	//Creates a file with the program's expected output
-	/*private static void createOutputFile(String falsePositivesPercent, String rejectedPasswordsAmount, String treeLayout, String searchTime, String treeLayoutAfterDeletions, String pathToOutput) {
+	private static void createOutputFile(String falsePositivesPercent, String rejectedPasswordsAmount, String treeLayout, String searchTime, String treeLayoutAfterDeletions, String pathToOutput) {
 		Path path = Paths.get(pathToOutput);
 		StringBuilder sb = new StringBuilder();
 		sb.append(falsePositivesPercent).append(System.lineSeparator()).append(rejectedPasswordsAmount).append(System.lineSeparator()).append(treeLayout).append(System.lineSeparator()).append(searchTime).append(System.lineSeparator()).append(treeLayoutAfterDeletions);
@@ -91,7 +91,5 @@ public class Runner {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}*/
-
-
+	}
 }

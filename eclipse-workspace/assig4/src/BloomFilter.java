@@ -16,7 +16,7 @@ public class BloomFilter{
 	}
 
 	private int hashValue(Hash hash, int k){
-		return (((hash.getA()*k) + hash.getB() % P) % m1);
+		return (((hash.getA()*k + hash.getB()) % P) % m1);
 	}
 
 	public void updateTable(String BAD_P){
