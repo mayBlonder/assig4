@@ -131,11 +131,7 @@ public class BTreeNode {
     
     public boolean search (String s)
     {
-    	int i=0;
-    	while(i<size&&(keys[i]).compareTo(s)<0)
-    	{
-    		i++;
-    	}
+    	int i=lesseq(s);
     	if(i<size&&keys[i].equals(s))
     		return true;
     	if(leaf)
@@ -174,8 +170,7 @@ public class BTreeNode {
     	{
     		if(leaf)
     		{
-    			moveleft(i);
-    			decrisesize();
+    			removeLeaf(i);
     		}
     		else
     		{
@@ -212,11 +207,9 @@ public class BTreeNode {
     	children[i].children[children[i].size+1]=children[i+1].children[0];
     	children[i].size++;
     	keys[i]=children[i+1].keys[0];
-    	children[i+1].size--;
-    	for(int j=0;j<children[i+1].size;j++)
-    	{
-    		children[i+1].keys[j]=children[i+1].keys[j+1];
-    	}
+    	children[i+1].moveleft(0);
+    	children[i+1].decrisesize();
+    	System.out.println(this);
     }
     public void mergeLeft(int i) //merging with left sibling
     {
@@ -388,6 +381,11 @@ public class BTreeNode {
     			
     		}
     	}
+    }
+    private void removeLeaf(int i)
+    {
+    	moveleft(i);
+		decrisesize();		
     }
 }
    

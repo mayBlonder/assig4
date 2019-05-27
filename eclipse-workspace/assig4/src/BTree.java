@@ -65,8 +65,7 @@ public class BTree {
 					root.getchild(i).remove(key);
 				}
 			}
-		if(root.getsize()==0)
-			root=root.getchild(0);
+		updateRoot();
 	}
 	public void deleteKeysFromTree(String delet) {
 		String [] delets = File_handler.readFile(delet, File_handler.file_lineNum(delet));
@@ -87,6 +86,11 @@ public class BTree {
 			search(passwords[i]);
 		Double elapsedTime = (System.nanoTime() - start)/1000000.0;
 		return elapsedTime.toString();
+	}
+	private void updateRoot()
+	{
+		if(root.getsize()==0)
+			root=root.getchild(0);
 	}
 	
 	
