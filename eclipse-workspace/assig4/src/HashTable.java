@@ -2,16 +2,21 @@ public class HashTable {
 	private String[] badP;
 	private HashList[] table;
 	private int total_elements;
+	int P = 15486907;
 	private int n; //initial size of the table
 	
-	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		HashTable hashTable = new HashTable("4");
 		String t = hashTable.getSearchTime(System.getProperty("user.dir")+"/requested_passwords.txt");
 		System.out.println(t);
-	}
+	}*/
 	public HashTable(String n) {
-		this.n = Integer.parseInt(n);
+		try {
+			this.n = Integer.parseInt(n);
+		}
+		catch (NumberFormatException nfe){
+			System.out.println("NumberFormatException: " + nfe.getMessage());
+		}
 		this.table = new HashList[this.n];
 		this.total_elements = 0;
 	}
@@ -37,12 +42,10 @@ public class HashTable {
 		badP = File_handler.readFile(bad_p, File_handler.file_lineNum(bad_p));
 		for(int i=0;i<badP.length;i++) {
 			tmpNum256 = UniFunctions.tonumber256(badP[i]);
-			if(table[hashFunction(tmpNum256)] == null)
-			{
+			if(table[hashFunction(tmpNum256)] == null){
 				table[hashFunction(tmpNum256)] = new HashList(tmpNum256);
 			}
-			else
-			{
+			else{
 				table[hashFunction(tmpNum256)].add(tmpNum256);
 			}
 		}
@@ -67,8 +70,7 @@ public class HashTable {
 	}
 
 	private int hashFunction(int num) {
-		//temp hash function, just for testing.
-		return num % n;
+		return (num % P) % n;
 	}
 	
 	public String getSearchTime(String req_p) {
@@ -80,7 +82,7 @@ public class HashTable {
 			this.find(e);
 		}
 		long endTime = System.nanoTime();
-		return Double.toString((double)(endTime - startTime)/1000000000);
+		return Double.toString((double)(endTime - startTime)/1000000);
 	}
 
 	public String toString() {

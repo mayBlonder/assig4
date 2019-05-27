@@ -1,5 +1,7 @@
 //import java.util.Arrays;
 
+//import java.util.Arrays;
+
 public class BloomFilter{
 	String HASH_P;	//hash file path.
 	byte[] bloomArr;
@@ -9,7 +11,12 @@ public class BloomFilter{
 	public static String[] badPass;
 
 	public BloomFilter(String m1, String HASH_P){
-		this.m1 = Integer.parseInt(m1);
+		try {
+			this.m1 = Integer.parseInt(m1);
+		}
+		catch (NumberFormatException nfe){
+			System.out.println("NumberFormatException: " + nfe.getMessage());
+		}
 		this.bloomArr = new byte[this.m1];
 		this.HASH_P = HASH_P;
 		this.hashes = BuildHash.build_hashFunc(HASH_P);
@@ -73,7 +80,6 @@ public class BloomFilter{
 				rej++;	
 			}
 		}
-		System.out.println(rej);
-		return Double.toString(rej);
+		return Integer.toString((int)rej);
 	}
 }

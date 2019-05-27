@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 public class File_handler{
 
@@ -44,10 +45,13 @@ public class File_handler{
 		//converts a String array into int array.
 		int[] newArr = new int[arr.length];
 		int tmpNum256;
+		System.out.println(Arrays.toString(arr));
 		for(int i=0;i<arr.length;i++) {
 			tmpNum256 = UniFunctions.tonumber256(arr[i]);
 			newArr[i] = tmpNum256;
+			System.out.println(newArr[i] + " " + arr[i]);
 		}
+		//System.out.println(Arrays.toString(newArr));
 		return newArr;
 	}
 }
