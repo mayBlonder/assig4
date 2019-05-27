@@ -65,11 +65,11 @@ public class BTreeNode {
     		return;
     	children[i]=node;
     }
-    private void movekeysright()
+    /*private void movekeysright()
     {
     	for(int i=size-1;i>=0;i--)
     		keys[i+1]=keys[i];
-    }
+    }*/
     private void moveright()
     {
     	for(int i=size-1;i>=0;i--)
@@ -209,7 +209,7 @@ public class BTreeNode {
     	keys[i]=children[i+1].keys[0];
     	children[i+1].moveleft(0);
     	children[i+1].decrisesize();
-    	System.out.println(this);
+    	
     }
     public void mergeLeft(int i) //merging with left sibling
     {
