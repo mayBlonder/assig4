@@ -20,12 +20,11 @@ public class UniFunctions {
 	
 	public static int tonumber256(String s)
 	{
-		long sum=0;
-		long base=1;
-		for(int i=s.length()-1;i>=0;i--)
+		long sum=s.charAt(0);
+		int x=256;
+		for(int i=1;i<=s.length()-1;i++)
 		{
-			sum=(sum+(base*(int)(s.charAt(i))))%p;
-			base=base*256%p;
+			sum=s.charAt(i)+(sum*x)%p;
 		}
 		return (int) sum;
 	}
