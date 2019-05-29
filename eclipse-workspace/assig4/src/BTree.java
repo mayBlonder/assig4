@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 
 public class BTree {
 	private int t;
@@ -79,13 +80,13 @@ public class BTree {
 		return s.substring(0,s.length()-1);
 	}
 	public String getSearchTime(String reqpasswords) {
-		// TODO Auto-generated method stub
 		long start = System.nanoTime();    
 		String [] passwords = File_handler.readFile(reqpasswords, File_handler.file_lineNum(reqpasswords));
 		for(int i=0;i<passwords.length;i++)
 			search(passwords[i]);
 		Double elapsedTime = (System.nanoTime() - start)/1000000.0;
-		return elapsedTime.toString();
+		DecimalFormat numberFormat = new DecimalFormat("0.0000");
+		return numberFormat.format(elapsedTime);
 	}
 	private void updateRoot()
 	{
