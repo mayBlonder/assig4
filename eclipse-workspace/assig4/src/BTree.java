@@ -5,8 +5,8 @@ public class BTree {
 	private BTreeNode root;
 	
 	public BTree(String t)
-	{
-		if(t==null)
+	{//builder
+		if(t==null||Integer.parseInt(t)<=1)//making sure t has legitimate value
 			throw new RuntimeException("ileagal input");
 		this.t=Integer.parseInt(t);
 		root=new BTreeNode(this.t);
@@ -15,7 +15,7 @@ public class BTree {
 	{
 		if(key==null)
 			throw new RuntimeException("ileagal input");
-		if(root.getsize()==2*t-1)
+		if(root.getsize()==2*t-1)//Splitting the leaf if needed
 		{
 			BTreeNode nroot=new BTreeNode(t);
 			nroot.setleaf(false);
@@ -43,21 +43,21 @@ public class BTree {
 	}
 	public void remove(String key)
 	{
-		if(key==null||!search(key))
+		if(key==null||!search(key)) //making sure key is in the tree
 		{}
 		else
 		{
-			key=UniFunctions.deCap(key);
-			int i=root.bigeq(key);
+			key=UniFunctions.deCap(key);//replacing all capital letters in the key
+			int i=root.bigeq(key);//finding the fist key that is bigger or equal to wanted key to remove
 			if(i<root.getsize()&&root.getkey(i).equals(key))
 				{
 					root.remove(key);
 				}
 			else
 			{
-				if(root.getchild(i).getsize()==t-1)
+				if(root.getchild(i).getsize()==t-1)//cheking if the next node in path has enough keys
 				{
-					if(root.sizecorrection(i)==0)
+					if(root.sizecorrection(i)==0)//correcting the size of the next node
 						root.getchild(i).remove(key);
 					else
 						root.getchild(i-1).remove(key);
@@ -89,9 +89,12 @@ public class BTree {
 		return numberFormat.format(elapsedTime);
 	}
 	private void updateRoot()
-	{
+	{//updating root if height shrank
 		if(root.getsize()==0)
-			root=root.getchild(0);
+		{
+			if(root.getchild(0).getsize()!=0)
+				root=root.getchild(0);
+		}
 	}
 	
 	
