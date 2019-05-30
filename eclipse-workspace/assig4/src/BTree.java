@@ -48,7 +48,7 @@ public class BTree {
 		else
 		{
 			key=UniFunctions.deCap(key);
-			int i=root.lesseq(key);
+			int i=root.bigeq(key);
 			if(i<root.getsize()&&root.getkey(i).equals(key))
 				{
 					root.remove(key);
