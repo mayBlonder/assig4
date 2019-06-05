@@ -292,7 +292,7 @@ public class BTreeNode {
    	}
    	public int legitchild (int i)
    	{// finding if there is a child with more then t-1 keys
-   		if(i>0&&children[i].getsize()>t-1)//indicating that the left child has more then  t-1 keys
+   		if(children[i].getsize()>t-1)//indicating that the left child has more then  t-1 keys
    			return 0;
    		else
    		{
