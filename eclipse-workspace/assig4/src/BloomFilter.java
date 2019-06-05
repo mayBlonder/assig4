@@ -1,13 +1,9 @@
-//import java.util.Arrays;
-
-//import java.util.Arrays;
-
 public class BloomFilter{
-	String HASH_P;	//hash file path.
+	String HASH_P;		//hash file path.
 	byte[] bloomArr;
 	Hash[] hashes;
 	int P = 15486907;
-	int m1;	//array length.
+	int m1;				//array length.
 	public static String[] badPass;
 
 	public BloomFilter(String m1, String HASH_P){
@@ -31,6 +27,7 @@ public class BloomFilter{
 		int afterHash;
 		int lines_n = File_handler.file_lineNum(BAD_P);
 		badPass = File_handler.readFile(BAD_P, lines_n);
+		
 		for(int i=0;i<badPass.length;i++) {
 			tmpNum256 = UniFunctions.tonumber256(badPass[i]);
 			for(int j=0;j<hashes.length;j++) {	//performing all hashes.
@@ -61,8 +58,7 @@ public class BloomFilter{
 		double notInTale = 0;
 		double rej = 0;	//rejected password that are not in the table.
 		for(int i=0;i<reqPassInt.length;i++) {
-			HashListElement e = new HashListElement(reqPassInt[i]);
-			if(hashT.find(e) == -1) {	//is not in table.
+			if(hashT.find(reqPassInt[i]) == -1) {	//is not in table.
 				notInTale++;
 				if(isInbloomArr(reqPassInt[i])) {
 					rej++;	

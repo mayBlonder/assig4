@@ -4,12 +4,7 @@ public class HashTable {
 	private int total_elements;
 	int P = 15486907;
 	private int n; //initial size of the table
-	
-	/*public static void main(String[] args) {
-		HashTable hashTable = new HashTable("4");
-		String t = hashTable.getSearchTime(System.getProperty("user.dir")+"/requested_passwords.txt");
-		System.out.println(t);
-	}*/
+
 	public HashTable(String n) {
 		try {
 			this.n = Integer.parseInt(n);
@@ -24,8 +19,8 @@ public class HashTable {
 	public HashList[] getTable() {
 		return this.table;
 	}
-	
-	public int find(HashListElement toFind) {
+
+	public int find(int toFind) {
 		int found = -1;
 		int i = 0;
 		while(found == -1 && i<table.length) {
@@ -55,14 +50,15 @@ public class HashTable {
 		if(this.total_elements < this.n) {
 			table[hashFunction(key)].add(key);
 		}
-		else {  
+		else {  //rehashing.
 			n = 2*n;	//multiply by 2 the size of the table.
 			HashList[] tmpTable = new HashList[n];
 			for(int i=0;i<table.length;i++) {
 				HashListElement elem = table[i].getHead();
-				while(elem.getNext() != null)
+				while(elem.getNext() != null) {
 					tmpTable[hashFunction(elem.getData())].add(elem.getData());
-				elem = elem.getNext();
+					elem = elem.getNext();
+				}
 			}
 			table = tmpTable;
 			table[hashFunction(key)].add(key);	//add the wanted key.
@@ -72,14 +68,15 @@ public class HashTable {
 	private int hashFunction(int num) {
 		return (num % P) % n;
 	}
-	
+
 	public String getSearchTime(String req_p) {
 		long startTime = System.nanoTime();
 		int lines_n = File_handler.file_lineNum(req_p);
 		int[] reqPass = File_handler.stringArrToInt(File_handler.readFile(req_p, lines_n));
 		for(int i=0;i<reqPass.length;i++) {
-			HashListElement e = new HashListElement(reqPass[i]);
-			this.find(e);
+			if(table[i] != null) {
+				table[i].find(reqPass[i]);
+			}
 		}
 		long endTime = System.nanoTime();
 		return Double.toString((double)(endTime - startTime)/1000000);
