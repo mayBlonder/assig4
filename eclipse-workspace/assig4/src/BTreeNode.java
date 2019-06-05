@@ -82,7 +82,7 @@ public class BTreeNode {
     }
     private void movekeysleft(int k)
     {//moving  keys  one spot to the left from index k
-    	for(int i=k;i<size;i++)
+    	for(int i=k;i<size-1;i++)
     		keys[i]=keys[i+1];
     	
     }
@@ -145,7 +145,7 @@ public class BTreeNode {
         		splitted.children[j]=split.getchild(j+t);
         	}
     	}
-    	moveright(i+1);//making room for the new child
+    	moveright(i);//making room for the new child
     	keys[i]=split.getkey(t-1);
     	children[i+1]=splitted;
     	incrisesize();
@@ -226,7 +226,7 @@ public class BTreeNode {
     }
     public void mergeRight(int i)  //merging a child with his right sibling
     {
-    	children[i].keys[size]=keys[i];// inserting the buffer key to the left child
+    	children[i].keys[children[i].getsize()]=keys[i];// inserting the buffer key to the left child
     	children[i].incrisesize();
     	for(int j=0;j<children[i+1].getsize();j++)
     	{// copying keys from right sibling to current child

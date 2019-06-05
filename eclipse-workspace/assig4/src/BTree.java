@@ -6,9 +6,10 @@ public class BTree {
 	
 	public BTree(String t)
 	{//builder
-		if(t==null||Integer.parseInt(t)<=1)//making sure t has legitimate value
+		int s=Integer.parseInt(t);
+		if(t==null||s<=1)//making sure t has legitimate value
 			throw new RuntimeException("ileagal input");
-		this.t=Integer.parseInt(t);
+		this.t=s;
 		root=new BTreeNode(this.t);
 	}
 	public void insert(String key)
@@ -77,6 +78,8 @@ public class BTree {
 	public String toString()
 	{
 		String s= root.toString();
+		if(s.length()==0)
+			return s;
 		return s.substring(0,s.length()-1);
 	}
 	public String getSearchTime(String reqpasswords) {
@@ -92,7 +95,7 @@ public class BTree {
 	{//updating root if height shrank
 		if(root.getsize()==0)
 		{
-			if(root.getchild(0).getsize()!=0)
+			if(root.getchild(0)!=null)
 				root=root.getchild(0);
 		}
 	}
